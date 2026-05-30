@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Vesak Cards 🪷 — Send a Blessing</title>
+  <meta name="description" content="Send beautiful animated Vesak cards to your loved ones. Free, instant, no sign-up required." />
+  <meta name="theme-color" content="#1a0c03" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta property="og:title" content="Happy Vesak! 🪷" />
+  <meta property="og:description" content="Someone sent you a Vesak blessing." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- HOME PAGE -->
+  <section id="page-home" class="page active">
+    <div class="home-bg">
+      <div class="img-lantern img-lantern-1">
+        <div class="lantern-rope"></div>
+        <img src="https://i.pinimg.com/1200x/a6/85/8d/a6858d4a93958ba1a93f83a66c977e05.jpg" alt="" />
+        <div class="lantern-glow"></div>
+      </div>
+      <div class="img-lantern img-lantern-2">
+        <div class="lantern-rope"></div>
+        <img src="https://i.pinimg.com/1200x/e5/ae/4c/e5ae4c13105aeb5310a8789ef4618545.jpg" alt="" />
+        <div class="lantern-glow"></div>
+      </div>
+      <div class="img-lantern img-lantern-3">
+        <div class="lantern-rope"></div>
+        <img src="https://i.pinimg.com/1200x/a6/85/8d/a6858d4a93958ba1a93f83a66c977e05.jpg" alt="" />
+        <div class="lantern-glow"></div>
+      </div>
+      <div class="bg-lotus bg-lotus-1">
+        <img src="https://i.pinimg.com/736x/c6/2e/83/c62e8308c969736cca5e35411491d9f5.jpg" alt="" />
+      </div>
+      <div class="bg-lotus bg-lotus-2">
+        <img src="https://i.pinimg.com/736x/d4/d9/24/d4d9246f12000c5a63003a2d21d5e61b.jpg" alt="" />
+      </div>
+      <div class="bg-scene">
+        <img src="public/orvait%20Vesak%20card.png" alt="" />
+        <div class="bg-scene-fade"></div>
+      </div>
+      <div class="light-rays"></div>
+      <div class="particles" id="home-particles"></div>
+    </div>
+    <div class="home-content">
+      <div class="logo-area">
+        <div class="lotus-icon">
+          <img src="https://i.pinimg.com/736x/c6/2e/83/c62e8308c969736cca5e35411491d9f5.jpg" alt="Lotus" />
+        </div>
+        <h1>Vesak Cards</h1>
+        <p class="tagline">Send a blessing. Share the light.</p>
+      </div>
+
+      <div class="form-card">
+        <div class="form-group">
+          <label for="from-name">Your name</label>
+          <input type="text" id="from-name" placeholder="e.g. Isuru" maxlength="40" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label for="to-name">Send to</label>
+          <input type="text" id="to-name" placeholder="e.g. Ravidu" maxlength="40" autocomplete="off" />
+        </div>
+
+        <p class="choose-label">Choose your card</p>
+        <div class="template-grid">
+          <button class="tmpl-btn active" data-card="lotus" onclick="selectCard('lotus', this)">
+            <img class="tmpl-img" src="https://i.pinimg.com/736x/c6/2e/83/c62e8308c969736cca5e35411491d9f5.jpg" alt="Lotus" />
+            <span>Lotus</span>
+          </button>
+          <button class="tmpl-btn" data-card="lantern" onclick="selectCard('lantern', this)">
+            <img class="tmpl-img" src="https://i.pinimg.com/1200x/a6/85/8d/a6858d4a93958ba1a93f83a66c977e05.jpg" alt="Lantern" />
+            <span>Lantern</span>
+          </button>
+          <button class="tmpl-btn" data-card="bodhi" onclick="selectCard('bodhi', this)">
+            <img class="tmpl-img" src="https://i.pinimg.com/1200x/b6/7d/26/b67d26208dfe98abeb3215d48f938435.jpg" alt="Bodhi" />
+            <span>Bodhi</span>
+          </button>
+        </div>
+
+        <button class="btn-generate" onclick="generateCard()">
+          Create My Card →
+        </button>
+      </div>
+
+      <p class="powered-by">Powered by <strong>Orvait</strong></p>
+    </div>
+  </section>
+
+  <!-- CARD PAGE -->
+  <section id="page-card" class="page">
+    <div id="card-bg" class="card-bg">
+      <div class="card-deco card-deco-1" id="card-deco-1"></div>
+      <div class="card-deco card-deco-2" id="card-deco-2"></div>
+      <div class="card-deco card-deco-3" id="card-deco-3"></div>
+      <canvas id="card-canvas"></canvas>
+      <div class="card-center">
+        <div class="card-icon" id="card-icon"></div>
+        <h2 class="card-greeting" id="card-greeting"></h2>
+        <p class="card-wish" id="card-wish"></p>
+        <p class="card-from" id="card-from"></p>
+        <div class="card-divider">— 🪷 —</div>
+        <p class="card-quote">"May all beings be happy, peaceful, and free from suffering."</p>
+      </div>
+    </div>
+
+    <div class="share-panel">
+      <p class="share-label">Share this card</p>
+      <div class="share-buttons">
+        <button class="share-btn whatsapp" onclick="shareWhatsApp()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          WhatsApp
+        </button>
+        <button class="share-btn copy" onclick="copyLink()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          <span id="copy-label">Copy link</span>
+        </button>
+        <button class="share-btn native" onclick="nativeShare()" id="btn-native-share">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
+      </div>
+      <button class="btn-new" onclick="newCard()">← Create another card</button>
+      <p class="powered-by">Powered by <strong>Orvait</strong></p>
+    </div>
+  </section>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
