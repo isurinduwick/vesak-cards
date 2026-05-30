@@ -112,26 +112,20 @@ function startCanvasAnimation(cfg) {
   if (resizeHandler) window.removeEventListener('resize', resizeHandler);
   particles = [];
 
-  /* Logical (CSS-pixel) dimensions — kept separate from the DPR-scaled buffer */
   let W = 0, H = 0;
 
   function resize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    W = canvas.offsetWidth;
-    H = canvas.offsetHeight;
+    const bg  = canvas.parentElement;
+    W = canvas.offsetWidth  || (bg && bg.offsetWidth)  || window.innerWidth;
+    H = canvas.offsetHeight || (bg && bg.offsetHeight) || window.innerHeight;
     canvas.width  = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
-  resize();
+
   resizeHandler = resize;
   window.addEventListener('resize', resizeHandler);
-
-  /* Spawn particles — fewer on small screens for smooth performance */
-  const count = W < 600 ? 45 : 75;
-  for (let i = 0; i < count; i++) {
-    particles.push(makeParticle(W, H, cfg, true));
-  }
 
   function loop() {
     ctx.clearRect(0, 0, W, H);
@@ -162,8 +156,9 @@ function startCanvasAnimation(cfg) {
       p.life -= 1;
       p.alpha = Math.min(p.life / 40, 1) * p.maxAlpha;
 
-      ctx.globalAlpha = Math.max(0, p.alpha);
-      ctx.font        = `${p.size}px serif`;
+      ctx.globalAlpha  = Math.max(0, p.alpha);
+      ctx.font         = `${p.size}px serif`;
+      ctx.textBaseline = 'middle';
       ctx.fillText(p.emoji, p.x, p.y);
 
       if (p.life <= 0 || p.y < -30) {
@@ -174,7 +169,16 @@ function startCanvasAnimation(cfg) {
     ctx.globalAlpha = 1;
     animFrame = requestAnimationFrame(loop);
   }
-  loop();
+
+  /* Defer first resize until browser has committed layout — fixes 0×0 canvas on mobile */
+  requestAnimationFrame(function() {
+    resize();
+    const count = W < 600 ? 45 : 75;
+    for (let i = 0; i < count; i++) {
+      particles.push(makeParticle(W, H, cfg, true));
+    }
+    loop();
+  });
 }
 
 function makeParticle(w, h, cfg, scatter) {
