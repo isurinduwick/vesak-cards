@@ -239,9 +239,9 @@ function spawnHomeParticles() {
   const style = document.createElement('style');
   style.textContent = `
     @keyframes sparkle-up {
-      0%   { transform:translateY(0) scale(1); opacity:0; }
+      0%   { transform:translateY(0) scale(1) translateZ(0); opacity:0; }
       10%  { opacity:1; }
-      100% { transform:translateY(-70vh) scale(0.3); opacity:0; }
+      100% { transform:translateY(-70vh) scale(0.3) translateZ(0); opacity:0; }
     }
   `;
   document.head.appendChild(style);
